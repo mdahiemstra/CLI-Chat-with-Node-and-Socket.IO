@@ -2,13 +2,6 @@ var io     = require('socket.io-client'),
     prompt = require('prompt');
 var socket = io.connect('http://localhost:5000');
 
-var user_properties = [{
-        name: 'username', 
-        description: 'what is saf',
-        validator: /^[a-zA-Z\s\-]+$/,
-        warning: 'Username must be only letters, spaces, or dashes'
-}];
-
 prompt.message = "!".green;
 
 socket.on('connect', function() {
@@ -22,7 +15,7 @@ socket.on('connect', function() {
             if (result) {
                 
                 socket.emit('connected_users', {'name' : result.name});
-                
+   
                 sendMessage(result.name);
             }
     });
@@ -30,10 +23,7 @@ socket.on('connect', function() {
     socket.on('message', function(data) {
        
        console.log(data.message);
-    });
-    
-    
-    
+    });    
 });
 
 var sendMessage = function (username) {
@@ -46,9 +36,4 @@ var sendMessage = function (username) {
             sendMessage(username);
         }
     });
-}
-
-function onErr(err) {
-    console.log(err);
-    return 1;
 }
